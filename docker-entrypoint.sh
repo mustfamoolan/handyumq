@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd /var/www/html
+
 # Run composer install if vendor directory is missing
 if [ ! -d "vendor" ]; then
     echo "--> Vendor directory missing. Running composer install..."

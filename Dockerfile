@@ -27,8 +27,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
+# Copy application source code into image
+COPY . /var/www/html
+
 # Adjust ownership and permissions for Laravel
-RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
+RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chown -R www-data:www-data /var/www/html
 
 # Entrypoint script for automatic setup
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
