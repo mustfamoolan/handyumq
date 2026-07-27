@@ -18,7 +18,7 @@ services:
     container_name: handyman_web_service
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - handyman_net
     depends_on:
