@@ -2,12 +2,20 @@
 
 cd /var/www/html
 
-# Setup .env file if missing
+# Setup .env file if missing or incomplete
 if [ ! -f ".env" ]; then
     echo "--> .env file missing. Copying from .env.example..."
     cp .env.example .env || true
+fi
+
+# Ensure APP_KEY is set in .env
+if ! grep -q "APP_KEY=base64" .env 2>/dev/null; then
+    echo "--> Generating APP_KEY..."
     php artisan key:generate --force || true
 fi
+
+php artisan config:clear || true
+php artisan cache:clear || true
 
 # Wait for MySQL database container to finish booting
 echo "--> Waiting for MySQL database..."
