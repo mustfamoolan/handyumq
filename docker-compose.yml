@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: handyman_app
+    container_name: handyman_app_service
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:
@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: nginx.Dockerfile
-    container_name: handyman_web
+    container_name: handyman_web_service
     restart: unless-stopped
     ports:
       - "8080:80"
@@ -31,7 +31,7 @@ services:
   # MySQL Database Service
   db:
     image: mysql:8.0
-    container_name: handyman_db
+    container_name: handyman_db_service
     restart: unless-stopped
     ports:
       - "3306:3306"
