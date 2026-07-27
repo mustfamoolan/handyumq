@@ -620,12 +620,10 @@ class SubCategoriesTableSeeder extends Seeder
     }
     private function attachFeatureImage($model, $publicPath)
     {
-
-        $file = new \Illuminate\Http\File($publicPath);
-
-        $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('subcategory_image');
-
-        return $media;
-
+        if (file_exists($publicPath)) {
+            $file = new \Illuminate\Http\File($publicPath);
+            $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('subcategory_image');
+            return $media;
+        }
     }
 }

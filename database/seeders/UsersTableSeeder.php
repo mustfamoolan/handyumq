@@ -2978,11 +2978,10 @@ class UsersTableSeeder extends Seeder
     }
     private function attachFeatureImage($model, $publicPath)
     {
-
-        $file = new \Illuminate\Http\File($publicPath);
-
-        $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('profile_image');
-
-        return $media;
+        if (file_exists($publicPath)) {
+            $file = new \Illuminate\Http\File($publicPath);
+            $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('profile_image');
+            return $media;
+        }
     }
 }

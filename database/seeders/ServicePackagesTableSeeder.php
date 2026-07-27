@@ -150,12 +150,10 @@ class ServicePackagesTableSeeder extends Seeder
     }
     private function attachFeatureImage($model, $publicPath)
     {
-
-        $file = new \Illuminate\Http\File($publicPath);
-
-        $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('package_attachment');
-
-        return $media;
-
+        if (file_exists($publicPath)) {
+            $file = new \Illuminate\Http\File($publicPath);
+            $media = $model->addMedia($file)->preservingOriginal()->toMediaCollection('package_attachment');
+            return $media;
+        }
     }
 }
