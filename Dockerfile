@@ -30,6 +30,9 @@ WORKDIR /var/www/html
 # Copy application source code into image
 COPY . /var/www/html
 
+# Install composer dependencies during docker build
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader || true
+
 # Adjust ownership and permissions for Laravel
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
     && chown -R www-data:www-data /var/www/html

@@ -7,8 +7,6 @@ services:
     container_name: handyman_app_service
     restart: unless-stopped
     working_dir: /var/www/html
-    volumes:
-      - .:/var/www/html
     networks:
       - handyman_net
 
@@ -21,8 +19,6 @@ services:
     restart: unless-stopped
     ports:
       - "8080:80"
-    volumes:
-      - .:/var/www/html
     networks:
       - handyman_net
     depends_on:
