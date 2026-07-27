@@ -2,18 +2,23 @@
 
 cd /var/www/html
 
-# Run composer install if vendor directory is missing
-if [ ! -d "vendor" ]; then
-    echo "--> Vendor directory missing. Running composer install..."
-    composer install --no-interaction --prefer-dist --optimize-autoloader || true
-fi
-
 # Setup .env file if missing
 if [ ! -f ".env" ]; then
     echo "--> .env file missing. Copying from .env.example..."
     cp .env.example .env || true
     php artisan key:generate --force || true
 fi
+
+# Wait for MySQL database container to finish booting
+echo "--> Waiting for MySQL database..."
+for i in $(seq 1 15); do
+    if php -r "try { new PDO('mysql:host=db;port=3306;dbname=handyman_service', 'handyman', 'handyman_pass'); exit(0); } catch (Exception \$e) { exit(1); }"; then
+        echo "--> MySQL is ready!"
+        break
+    fi
+    echo "--> Waiting for MySQL container to finish initializing ($i/15)..."
+    sleep 2
+done
 
 # Run storage link and migrations
 echo "--> Setting up storage link & database migrations..."
