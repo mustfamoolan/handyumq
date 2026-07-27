@@ -30,6 +30,11 @@ WORKDIR /var/www/html
 # Adjust ownership and permissions for Laravel
 RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 9000 and start php-fpm server
+# Entrypoint script for automatic setup
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Expose port 9000 and start php-fpm server via entrypoint
 EXPOSE 9000
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["php-fpm"]
