@@ -7,6 +7,8 @@ services:
     container_name: handyman_app_service
     restart: unless-stopped
     working_dir: /var/www/html
+    volumes:
+      - storage_data:/var/www/html/storage/app/public
     networks:
       - handyman_net
 
@@ -19,6 +21,8 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+    volumes:
+      - storage_data:/var/www/html/public/storage
     networks:
       - handyman_net
     depends_on:
@@ -48,4 +52,6 @@ networks:
 
 volumes:
   dbdata:
+    driver: local
+  storage_data:
     driver: local
